@@ -25,13 +25,13 @@ package org.objectweb.asm.idea.plugin.util;
  * Updated by: Kamiel
  */
 
+import com.nasller.asm.libs.org.objectweb.asm.Label;
+import com.nasller.asm.libs.org.objectweb.asm.Opcodes;
+import com.nasller.asm.libs.org.objectweb.asm.Type;
+import com.nasller.asm.libs.org.objectweb.asm.commons.Method;
+import com.nasller.asm.libs.org.objectweb.asm.util.Printer;
+import com.nasller.asm.libs.org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.idea.plugin.config.GroovyCodeStyle;
-import reloc.org.objectweb.asm.Label;
-import reloc.org.objectweb.asm.Opcodes;
-import reloc.org.objectweb.asm.Type;
-import reloc.org.objectweb.asm.commons.Method;
-import reloc.org.objectweb.asm.util.Printer;
-import reloc.org.objectweb.asm.util.Textifier;
 
 import java.util.Collections;
 import java.util.HashMap;

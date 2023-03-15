@@ -18,10 +18,12 @@
 
 package org.objectweb.asm.idea.plugin.action;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.util.IconLoader;
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.idea.plugin.config.PluginConfig;
 
 public class ShowASMSettingsAction extends AnAction {
@@ -38,5 +40,10 @@ public class ShowASMSettingsAction extends AnAction {
     @Override
     public void actionPerformed(final AnActionEvent e) {
         ShowSettingsUtil.getInstance().showSettingsDialog(e.getProject(), PluginConfig.class);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

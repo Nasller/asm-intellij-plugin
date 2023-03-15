@@ -1,75 +1,18 @@
-<idea-plugin version="2">
+<idea-plugin>
+    <id>com.nasller.AsmByteCode</id>
     <name>ASM Bytecode Viewer</name>
     <description>Displays bytecode for Java classes and ASMified code which will help you in your class generation.</description>
-    <version>9.2</version>
-    <vendor>Kamiel Ahmadpour</vendor>
-    <idea-version since-build="212.4746.92"/>
+    <vendor>Nasller</vendor>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
 
     <change-notes><![CDATA[
-        <b>Version 9.2</b>
+        <b>Version 9.4</b>
         <ul>
-            <li>Update ASM version to 9.2</li>
+            <li>Update ASM version to 9.4</li>
             <li>Update deprecated APIs</li>
         </ul>
-        <b>Version 7.2</b>
-        <ul>
-            <li>Remove incompatible versions</li>
-        </ul>
-        <b>Version 7.1</b>
-        <ul>
-            <li>Upgraded ASM to 7.1 and fix some bugs</li>
-        </ul>
-        <b>Version 0.6.0</b>
-        <ul>
-            <li>Add support for the new versions of Intellij</li>
-            <li>Upgraded ASM to 6.0 and fix some bugs</li>
-        </ul>
-        <b>Version 0.3.5</b>
-        <ul>
-            <li>Fixed ASM lib classes version</li>
-            <li>Upgraded ASM to 5.0.5</li>
-        </ul>
-        <b>Version 0.3.4</b>
-        <ul>
-            <li>Support bytecode display for inner classes based on the caret position in the active editor</li>
-            <li>Fix outline not beeing always updated when file changed</li>
-        </ul>
-        <b>Version 0.3.3</b>
-        <ul>
-            <li>Upgraded ASM to 5.0</li>
-        </ul>
-        <b>Version 0.3.2</b>
-        <ul>
-            <li>Upgraded ASM to 4.0</li>
-        </ul>
-        <b>Version 0.3.1</b>
-        <ul>
-            <li>Updated for IntelliJ IDEA 10.0.2</li>
-            <li>Supports showing bytecode for .class files for which we have source code</li>
-        </ul>
-        <b>Version 0.3</b>
-        <ul>
-            <li>Add diff view popup which shows the differences with the previous version of bytecode</li>
-            <li>Search in every output directory, including test files</li>
-            <li>Support for Groovy @groovyx.ast.bytecode.Bytecode annotation</li>
-            <li>Configuration of ASM ClassReader flags</li>
-            <li>Configuration of Groovy code style</li>
-        </ul>
-        <b>Version 0.2</b>
-        <ul>
-            <li>Fixed .class files not being found under Windows</li>
-            <li>Fixed tool window not opening if output directory doesn't exist</li>
-            <li>Added shortcut in "Code" menu</li>
-            <li>Do not compile file if up-to-date</li>
-        </ul>
     ]]></change-notes>
-
-    <application-components>
-
-    </application-components>
-
     <project-components>
         <component>
             <implementation-class>org.objectweb.asm.idea.plugin.config.ASMPluginComponent</implementation-class>
@@ -87,9 +30,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable groupId="tools" instance="org.objectweb.asm.idea.plugin.config.PluginConfig"/>
-        <toolWindow id="ASMPlugin" anchor="right" icon="/images/asm.gif" factoryClass="org.objectweb.asm.idea.plugin.view.BytecodeOutlineToolWindowFactory"/>
-        <projectService serviceInterface="org.objectweb.asm.idea.plugin.view.BytecodeOutline" serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeOutline"/>
-        <projectService serviceInterface="org.objectweb.asm.idea.plugin.view.BytecodeASMified" serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeASMified"/>
-        <projectService serviceInterface="org.objectweb.asm.idea.plugin.view.GroovifiedView" serviceImplementation="org.objectweb.asm.idea.plugin.view.GroovifiedView"/>
+        <toolWindow id="ASMPlugin" anchor="right" factoryClass="org.objectweb.asm.idea.plugin.view.BytecodeOutlineToolWindowFactory"/>
+        <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeOutline"/>
+        <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeASMified"/>
+        <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.GroovifiedView"/>
     </extensions>
 </idea-plugin>

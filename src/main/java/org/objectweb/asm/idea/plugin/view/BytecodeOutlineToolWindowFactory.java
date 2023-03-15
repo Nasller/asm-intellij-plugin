@@ -27,11 +27,12 @@ import com.intellij.ui.content.ContentFactory;
  * ASM ToolWindow factory
  */
 public class BytecodeOutlineToolWindowFactory implements ToolWindowFactory {
-
     public void createToolWindowContent(final Project project, final ToolWindow toolWindow) {
-        toolWindow.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(BytecodeOutline.getInstance(project), "Bytecode", false));
-        toolWindow.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(BytecodeASMified.getInstance(project), "ASMified", false));
-        toolWindow.getContentManager().addContent(ContentFactory.SERVICE.getInstance().createContent(GroovifiedView.getInstance(project), "Groovified", false));
+        toolWindow.getContentManager().addContent(ContentFactory.getInstance()
+                .createContent(BytecodeOutline.getInstance(project), "Bytecode", false));
+        toolWindow.getContentManager().addContent(ContentFactory.getInstance()
+                .createContent(BytecodeASMified.getInstance(project), "ASMified", false));
+        toolWindow.getContentManager().addContent(ContentFactory.getInstance()
+                .createContent(GroovifiedView.getInstance(project), "Groovified", false));
     }
-
 }

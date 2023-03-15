@@ -22,14 +22,17 @@ import com.intellij.diff.DiffContentFactory;
 import com.intellij.diff.DiffManager;
 import com.intellij.diff.contents.DocumentContent;
 import com.intellij.diff.requests.SimpleDiffRequest;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileTypes.FileTypeManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.idea.plugin.common.Constants;
 
 public class ShowASMDiffAction extends AnAction {
@@ -39,7 +42,6 @@ public class ShowASMDiffAction extends AnAction {
     private VirtualFile previousFile;
     private Document document;
     private String extension;
-
 
     public ShowASMDiffAction(String previousCode, VirtualFile previousFile, Document document, String extension) {
         super("Show Differences",
@@ -63,15 +65,19 @@ public class ShowASMDiffAction extends AnAction {
 
     @Override
     public void actionPerformed(final AnActionEvent e) {
-        PsiFile psiFile = PsiFileFactory.getInstance(e.getProject()).createFileFromText(Constants.FILE_NAME, FileTypeManager.getInstance().getFileTypeByExtension(extension), "");
+        Project project = e.getProject();
+        if(project == null) return;
+        PsiFile psiFile = PsiFileFactory.getInstance(project).createFileFromText(Constants.FILE_NAME, FileTypeManager.getInstance().getFileTypeByExtension(extension), "");
         DocumentContent currentContent = (previousFile == null) ? DiffContentFactory.getInstance().create("") : DiffContentFactory.getInstance().create(document.getText(), psiFile.getFileType());
         DocumentContent oldContent = (previousCode == null) ? DiffContentFactory.getInstance().create("") : DiffContentFactory.getInstance().create(previousCode, psiFile.getFileType());
         SimpleDiffRequest request = new SimpleDiffRequest(DIFF_WINDOW_TITLE, oldContent, currentContent, DIFF_TITLES[0], DIFF_TITLES[1]);
-        DiffManager.getInstance().showDiff(e.getProject(), request);
+        DiffManager.getInstance().showDiff(project, request);
     }
 
-
-
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
 
     // Property files
     public String getPreviousCode() {
