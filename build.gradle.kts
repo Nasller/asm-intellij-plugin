@@ -69,6 +69,13 @@ abstract class MyRepackager : TransformAction<TransformParameters.None> {
                                     "com/nasller/asm/libs/$internalName"
                                 } else internalName
                             }
+
+                            override fun mapValue(value: Any?): Any {
+                                val mapValue = super.mapValue(value)
+                                return if(mapValue is String && mapValue.startsWith("org/objectweb/asm/")){
+                                    "com/nasller/asm/libs/$mapValue"
+                                } else mapValue
+                            }
                         }), 0)
                         zipOut.write(writer.toByteArray())
                     } else {
