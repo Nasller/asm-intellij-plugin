@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>com.nasller.AsmByteCode</id>
+    <vendor>Nasller</vendor>
     <name>ASM Bytecode Viewer</name>
     <description>Displays bytecode for Java classes and ASMified code which will help you in your class generation.</description>
-    <vendor>Nasller</vendor>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
 
@@ -13,6 +13,7 @@
             <li>Update deprecated APIs</li>
         </ul>
     ]]></change-notes>
+
     <project-components>
         <component>
             <implementation-class>org.objectweb.asm.idea.plugin.config.ASMPluginComponent</implementation-class>
@@ -30,7 +31,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable groupId="tools" instance="org.objectweb.asm.idea.plugin.config.PluginConfig"/>
-        <toolWindow id="ASMPlugin" anchor="right" factoryClass="org.objectweb.asm.idea.plugin.view.BytecodeOutlineToolWindowFactory"/>
+        <toolWindow id="ASMPlugin" anchor="right" icon="/icons/asm.png"
+                    factoryClass="org.objectweb.asm.idea.plugin.view.BytecodeOutlineToolWindowFactory"/>
         <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeOutline"/>
         <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.BytecodeASMified"/>
         <projectService serviceImplementation="org.objectweb.asm.idea.plugin.view.GroovifiedView"/>
