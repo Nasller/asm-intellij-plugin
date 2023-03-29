@@ -58,7 +58,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.concurrent.Semaphore;
 
-
 /**
  * Given a java file (or any file which generates classes), tries to locate a .class file. If the compilation state is
  * not up to date, performs an automatic compilation of the class. If the .class file can be located, generates bytecode
