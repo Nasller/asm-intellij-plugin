@@ -10,8 +10,8 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 buildscript {
     dependencies {
-        classpath("org.ow2.asm:asm:9.4")
-        classpath("org.ow2.asm:asm-commons:9.4")
+        classpath("org.ow2.asm:asm:9.5")
+        classpath("org.ow2.asm:asm-commons:9.5")
     }
 }
 
@@ -101,9 +101,9 @@ dependencies {
         to.attribute(repackagedAttribute, true).attribute(artifactTypeAttribute, "jar")
     }
 
-    repackage("org.ow2.asm:asm:9.4")
-    repackage("org.ow2.asm:asm-commons:9.4")
-    repackage("org.ow2.asm:asm-util:9.4")
+    repackage("org.ow2.asm:asm:9.5")
+    repackage("org.ow2.asm:asm-commons:9.5")
+    repackage("org.ow2.asm:asm-util:9.5")
     implementation(files(repackage.files))
 }
 
