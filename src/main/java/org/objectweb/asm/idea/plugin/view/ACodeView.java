@@ -30,6 +30,7 @@ import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindowManager;
@@ -40,11 +41,15 @@ import org.objectweb.asm.idea.plugin.common.Constants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for editors which displays bytecode or ASMified code.
  */
-public class ACodeView extends SimpleToolWindowPanel implements Disposable {
+public abstract class ACodeView extends SimpleToolWindowPanel implements Disposable, ActionListener {
     protected final Project project;
 
     protected final ToolWindowManager toolWindowManager;
@@ -52,6 +57,9 @@ public class ACodeView extends SimpleToolWindowPanel implements Disposable {
     private final String extension;
     protected Editor editor;
     private ShowASMDiffAction showASMDiffAction;
+    protected ComboBox<String> comboBox;
+
+    protected Map<String, VirtualFile> files;
 
     public ACodeView(final ToolWindowManager toolWindowManager, KeymapManager keymapManager, final Project project, final String fileExtension) {
         super(true, true);
@@ -67,6 +75,8 @@ public class ACodeView extends SimpleToolWindowPanel implements Disposable {
         Document document = editorFactory.createDocument("");
         editor = editorFactory.createEditor(document, project, FileTypeManager.getInstance().getFileTypeByExtension(extension), true);
         showASMDiffAction = new ShowASMDiffAction(null, null, document, extension);
+        comboBox = new ComboBox<>();
+        comboBox.addActionListener(this);
 
         final JComponent editorComponent = editor.getComponent();
         add(editorComponent);
@@ -79,15 +89,45 @@ public class ACodeView extends SimpleToolWindowPanel implements Disposable {
         actionToolBar.setTargetComponent(editorComponent);
 
         final JPanel buttonsPanel = new JPanel(new BorderLayout());
+        buttonsPanel.add(comboBox, BorderLayout.EAST);
         buttonsPanel.add(actionToolBar.getComponent(), BorderLayout.CENTER);
         PopupHandler.installPopupMenu(editor.getContentComponent(), group, Constants.PLUGIN_WINDOW_NAME);
         setToolbar(buttonsPanel);
     }
 
-    public void setCode(final VirtualFile file, final String code) {
+    public void setCodeFiles(Map<String, VirtualFile> files) {
+        this.files = files;
+        comboBox.setModel(new DefaultComboBoxModel<>());
+        if (files != null) {
+            Set<String> keys = files.keySet();
+            keys.stream().sorted().forEach(comboBox::addItem);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final Object selectedItem = comboBox.getSelectedItem();
+        if (selectedItem != null) {
+            loadFile(selectedItem.toString());
+        }
+    }
+
+    public void loadFile(String fileId) {
+        VirtualFile file = files.get(fileId);
+        if (file != null) {
+            comboBox.setSelectedItem(fileId);
+            loadFile(file);
+        } else {
+            setCode(null, Constants.NO_CLASS_FOUND);
+        }
+    }
+
+    protected abstract void loadFile(VirtualFile file);
+
+    protected void setCode(final VirtualFile file, final String code) {
         final String text = showASMDiffAction.getDocument().getText();
         if (showASMDiffAction.getPreviousFile() == null || file == null || showASMDiffAction.getPreviousFile().getPath().equals(file.getPath()) && !Constants.NO_CLASS_FOUND.equals(text)) {
-            if (file != null) showASMDiffAction.setPreviousCode(text);
+            if (file != null) showASMDiffAction.setPrev6iousCode(text);
         } else if (!showASMDiffAction.getPreviousFile().getPath().equals(file.getPath())) {
             showASMDiffAction.setPreviousCode(""); // reset previous code
         }
