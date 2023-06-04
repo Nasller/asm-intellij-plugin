@@ -1,7 +1,5 @@
-name: Build Release
-on:
-  release:
-    types: [ created ]
+name: Build
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
