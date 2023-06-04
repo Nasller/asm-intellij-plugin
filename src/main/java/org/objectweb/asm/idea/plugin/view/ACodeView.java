@@ -127,7 +127,7 @@ public abstract class ACodeView extends SimpleToolWindowPanel implements Disposa
     protected void setCode(final VirtualFile file, final String code) {
         final String text = showASMDiffAction.getDocument().getText();
         if (showASMDiffAction.getPreviousFile() == null || file == null || showASMDiffAction.getPreviousFile().getPath().equals(file.getPath()) && !Constants.NO_CLASS_FOUND.equals(text)) {
-            if (file != null) showASMDiffAction.setPrev6iousCode(text);
+            if (file != null) showASMDiffAction.setPreviousCode(text);
         } else if (!showASMDiffAction.getPreviousFile().getPath().equals(file.getPath())) {
             showASMDiffAction.setPreviousCode(""); // reset previous code
         }
