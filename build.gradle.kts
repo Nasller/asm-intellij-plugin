@@ -89,6 +89,10 @@ abstract class MyRepackager : TransformAction<TransformParameters.None> {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     attributesSchema {
         attribute(repackagedAttribute)
